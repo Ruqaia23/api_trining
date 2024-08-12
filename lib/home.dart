@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Post> data = [];
+  List<Post> posts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +19,36 @@ class _HomeState extends State<Home> {
       ),
       body: ListView(
         children: [
-          Container(
-            width: 500,
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            child: MaterialButton(
-              color: Color.fromARGB(255, 205, 135, 217),
-              onPressed: () => dataCall(),
-              child: Text("Request"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  color: Color.fromARGB(255, 205, 135, 217),
+                  onPressed: () => dataCall(),
+                  child: Text("Get"),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                MaterialButton(
+                  color: Color.fromARGB(255, 205, 135, 217),
+                  onPressed: () => createPoat('title', 'body'),
+                  child: Text("Post"),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                MaterialButton(
+                  color: Color.fromARGB(255, 205, 135, 217),
+                  onPressed: () => deletePost(),
+                  child: Text("Delete"),
+                ),
+              ],
             ),
           ),
-          ...data
+          ...posts
               .map((item) => Card(
                     child: ListTile(
                       title: Text("${item.title}"),
@@ -42,15 +62,38 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> dataCall() async {
-    Uri url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-    var response = await http.get(url);
+    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    var response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonData = jsonDecode(response.body);
-      List<Post> posts = jsonData.map((item) => Post.fromJson(item)).toList();
+      print('successfully ${response.body}');
       setState(() {
-        data = posts;
+        List<dynamic> jsonData = jsonDecode(response.body);
+        posts = jsonData.map((item) => Post.fromJson(item)).toList();
       });
+    }
+  }
+
+  Future<Post> createPoat(String title, String body) async {
+    Map<String, dynamic> request = {
+      'title': title,
+      'body': body,
+      'userId': '111'
+    };
+    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final response = await http.post(uri, body: request);
+    if (response.statusCode == 201) {
+      return Post.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  Future<void> deletePost() async {
+    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final response = await http.delete(uri);
+    if (response.statusCode != 200) {
+      throw Exception('Failed');
     }
   }
 }

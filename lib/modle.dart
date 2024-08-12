@@ -1,16 +1,21 @@
 class Post {
-  final String title;
-  final String body;
+  int? userId;
+  String? title;
+  String? body;
 
-  Post({
-    required this.title,
-    required this.body,
-  });
+  Post({this.userId, this.title, this.body});
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      title: json['title'],
-      body: json['body'],
-    );
+  Post.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    title = json['title'];
+    body = json['body'];
+  }
+
+  Map<String, dynamic> toJson(item) {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
+    data['title'] = this.title;
+    data['body'] = this.body;
+    return data;
   }
 }
