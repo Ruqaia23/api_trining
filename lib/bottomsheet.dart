@@ -49,8 +49,23 @@ class AddOrUpdatePostWidget extends StatelessWidget {
                     title: titleController.text,
                     body: bodyController.text,
                   ));
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Text('Successfully added'),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      );
+                    },
+                  );
                 },
-                child: const Text("add"),
+                child: const Text("Add"),
               ),
               const SizedBox(width: 15),
 

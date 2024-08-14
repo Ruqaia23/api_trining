@@ -21,9 +21,9 @@ class ButtonAppberPost extends StatelessWidget {
           ]),
           const SizedBox(width: 20),
           MaterialButton(
-            color: const Color.fromARGB(255, 205, 135, 217),
+            color: Color.fromARGB(255, 205, 135, 217),
             onPressed: onAddPost,
-            child: const Text("Add"),
+            child: Text("Add"),
           ),
           const SizedBox(
             width: 20,
