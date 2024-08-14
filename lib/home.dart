@@ -3,6 +3,7 @@ import 'package:api_trining/bottomsheet.dart';
 import 'package:api_trining/modle.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:api_trining/Apis/appapis.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -61,30 +62,40 @@ class _HomeState extends State<Home> {
                     child: Text("Get"),
                   ),
           ]),
-          SizedBox(
-            width: 20,
-          ),
-          MaterialButton(
-            color: Color.fromARGB(255, 205, 135, 217),
-            onPressed: () => showAddEditBottomSheet(context),
-            child: Text("Post"),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          MaterialButton(
-            color: Color.fromARGB(255, 205, 135, 217),
-            onPressed: () {
-              if (posts.isNotEmpty) {
-                // deletePost(posts.last.);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('No posts to delete')),
-                );
-              }
-            },
-            child: Text("Delete"),
-          ),
+          // SizedBox(
+          //   width: 20,
+          // ),
+          // MaterialButton(
+          //   color: Color.fromARGB(255, 205, 135, 217),
+          //   onPressed: () => showAddEditBottomSheet(context),
+          //   //       .then({body,title}){
+          //   //         createPost(tiltle,body).then(body){
+          //   //           setState(() {
+
+          //   //   posts.add(body),
+          //   // });
+          //   //         }
+          //   //       },
+          //   child: Text("Post"),
+          // ),
+          // SizedBox(
+          //   width: 20,
+          // ),
+          // MaterialButton(
+          //   color: Color.fromARGB(255, 205, 135, 217),
+          //   onPressed: () {
+          //     if (posts.isNotEmpty) {
+          //       if (posts.last.id != null) {
+          //         //  deletePost(posts.last.id);
+          //       }
+          //     } else {
+          //       ScaffoldMessenger.of(context).showSnackBar(
+          //         SnackBar(content: Text('No posts to delete')),
+          //       );
+          //     }
+          //   },
+          //   child: Text("Delete"),
+          // ),
         ],
       ),
     );
@@ -95,40 +106,19 @@ class _HomeState extends State<Home> {
       child: ListTile(
         title: Text("${item.title}"),
         subtitle: Text("${item.body}"),
-        trailing: IconButton(icon: Icon(Icons.delete), onPressed: () {}
-            // => deletePost(Post.id),
+        trailing: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => deletePost(item.id),
             ),
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => showAddEditBottomSheet(context),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Future<void> dataCall() async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-    var response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      print('successfully ${response.body}');
-      setState(() {
-        List<dynamic> jsonData = jsonDecode(response.body);
-        posts = jsonData.map((item) => Post.fromJson(item)).toList();
-      });
-    } else {
-      print('Failed');
-      setState(() {});
-    }
-  }
-
-  Future<void> deletePost(int postId) async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts/$postId");
-    final response = await http.delete(uri);
-
-    if (response.statusCode == 200) {
-      setState(() {
-        posts.removeWhere((post) => post.id == postId);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Post deleted successfully')),
-      );
-    }
   }
 }

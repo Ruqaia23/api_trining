@@ -46,8 +46,9 @@ Future<void> showAddEditBottomSheet(BuildContext context) async {
                   onPressed: () {
                     String title = titleController.text;
                     String body = bodyController.text;
-                    createPost(title, body);
                     Navigator.pop(context);
+                    // return ({title,body})
+                    //  createPost(title, body);
                   },
                   child: Text("add"),
                 ),
@@ -57,7 +58,7 @@ Future<void> showAddEditBottomSheet(BuildContext context) async {
                   onPressed: () {
                     String title = titleController.text;
                     String body = bodyController.text;
-                    updatePost(title, body);
+                    // updatePost(title, body);
                     Navigator.pop(context);
                   },
                   child: Text("edit"),
@@ -69,34 +70,4 @@ Future<void> showAddEditBottomSheet(BuildContext context) async {
       );
     },
   );
-}
-
-Future<Post> createPost(String title, String body) async {
-  Map<String, dynamic> request = {
-    'title': title,
-    'body': body,
-    'userId': '111'
-  };
-  final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-  final response = await http.post(uri, body: request);
-  if (response.statusCode == 201) {
-    return Post.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed');
-  }
-}
-
-Future<Post> updatePost(String title, String body) async {
-  Map<String, dynamic> request = {
-    'title': title,
-    'body': body,
-    'userId': '111'
-  };
-  final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-  final response = await http.put(uri, body: request);
-  if (response.statusCode == 201) {
-    return Post.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed');
-  }
 }
