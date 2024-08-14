@@ -50,7 +50,8 @@ class AppAPIs {
     }
   }
 
-  Future<Post?> createPost(String title, String body) async {
+  Future<Post?> createPost(
+      {required String title, required String body}) async {
     Map<String, dynamic> request = {'title': title, 'body': body};
 
     final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
@@ -59,7 +60,7 @@ class AppAPIs {
           await http.post(uri, body: json.encode(request), headers: {
         "Content-Type": "application/json",
       });
-
+      print(response.body);
       if (response.statusCode == 201) {
         return Post.fromJson(jsonDecode(response.body));
       } else {
