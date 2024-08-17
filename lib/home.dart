@@ -20,6 +20,11 @@ class _HomeState extends State<Home> {
   bool isLoading = false;
   AppAPIs appAPIs = AppAPIs();
 
+  // final Future<String>  = Future<String>.delayed(
+  //   const Duration(seconds: 2),
+  //   () => '',
+  // );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,25 +33,39 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: [
-          ButtonAppberPost(
-            onAddPost: _addPost,
-            onGetPosts: _getPosts,
+          Center(
+            child: FutureBuilder(
+              future: appAPIs.dataCall(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  snapshot.data!;
+                  print(snapshot.data);
+
+                  return ButtonAppberPost(
+                    onAddPost: _addPost,
+                    onGetPosts: _getPosts,
+                  );
+                } else {
+                  return posts.length == 0
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.blue,
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                              itemCount: posts.length,
+                              itemBuilder: (context, index) {
+                                return CardPost(
+                                  post: posts[index],
+                                  onDeletePost: (post) {},
+                                  onUpdatePost: (post) {},
+                                );
+                              }));
+                }
+              },
+            ),
           ),
-          isLoading
-              ? const Expanded(
-                  child: Center(
-                      child: CircularProgressIndicator(color: Colors.blue)),
-                )
-              : Expanded(
-                  child: ListView(
-                    children: posts
-                        .map((post) => CardPost(
-                            post: post,
-                            onDeletePost: (post) {},
-                            onUpdatePost: (post) {}))
-                        .toList(),
-                  ),
-                ),
         ],
       ),
     );

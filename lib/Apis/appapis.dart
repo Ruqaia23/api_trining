@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AppAPIs {
+  String dataURL = "https://jsonplaceholder.typicode.com/posts";
   List<Post> posts = [];
 
   Future<List<Post>> dataCall() async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final uri = Uri.parse('$dataURL');
     try {
       final response = await http.get(uri);
 
@@ -26,7 +27,7 @@ class AppAPIs {
   }
 
   Future<bool> deletePost(BuildContext context, int postId) async {
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts/$postId");
+    final uri = Uri.parse('$dataURL' '$postId');
     try {
       final response = await http.delete(uri);
 
@@ -54,7 +55,7 @@ class AppAPIs {
       {required String title, required String body}) async {
     Map<String, dynamic> request = {'title': title, 'body': body};
 
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts");
+    final uri = Uri.parse('$dataURL');
     try {
       final response =
           await http.post(uri, body: json.encode(request), headers: {
@@ -77,7 +78,7 @@ class AppAPIs {
       'title': title,
       'body': body,
     };
-    final uri = Uri.parse("https://jsonplaceholder.typicode.com/posts/$postId");
+    final uri = Uri.parse('$dataURL' '$postId');
     try {
       final response =
           await http.put(uri, body: json.encode(request), headers: {
