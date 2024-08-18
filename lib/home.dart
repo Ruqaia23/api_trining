@@ -20,11 +20,6 @@ class _HomeState extends State<Home> {
   bool isLoading = false;
   AppAPIs appAPIs = AppAPIs();
 
-  // final Future<String>  = Future<String>.delayed(
-  //   const Duration(seconds: 2),
-  //   () => '',
-  // );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,39 +28,36 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: [
-          Center(
-            child: FutureBuilder(
+          FutureBuilder(
               future: appAPIs.dataCall(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   snapshot.data!;
                   print(snapshot.data);
 
-                  return ButtonAppberPost(
-                    onAddPost: _addPost,
-                    onGetPosts: _getPosts,
-                  );
+                  return Expanded(
+                      child: Column(
+                    children: [
+                      ButtonAppberPost(
+                        onAddPost: _addPost,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return CardPost(
+                                post: snapshot.data![index],
+                                onDeletePost: (posts) {},
+                                onUpdatePost: (posts) {},
+                              );
+                            }),
+                      )
+                    ],
+                  ));
                 } else {
-                  return posts.length == 0
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.blue,
-                          ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                              itemCount: posts.length,
-                              itemBuilder: (context, index) {
-                                return CardPost(
-                                  post: posts[index],
-                                  onDeletePost: (post) {},
-                                  onUpdatePost: (post) {},
-                                );
-                              }));
+                  return Center(child: CircularProgressIndicator());
                 }
-              },
-            ),
-          ),
+              }),
         ],
       ),
     );

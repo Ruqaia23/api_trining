@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ButtonAppberPost extends StatelessWidget {
-  const ButtonAppberPost(
-      {super.key, required this.onAddPost, required this.onGetPosts});
+  const ButtonAppberPost({
+    super.key,
+    required this.onAddPost,
+    //required this.onGetPosts
+  });
   final VoidCallback onAddPost;
-  final VoidCallback onGetPosts;
+  //final VoidCallback onGetPosts;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,11 +16,12 @@ class ButtonAppberPost extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(children: [
-            MaterialButton(
-              color: const Color.fromARGB(255, 205, 135, 217),
-              onPressed: onGetPosts,
-              child: const Text("Get"),
-            ),
+            // MaterialButton(
+            //   color: const Color.fromARGB(255, 205, 135, 217),
+            //   onPressed:
+            //   onGetPosts,
+            //   child: const Text("Get"),
+            // ),
           ]),
           const SizedBox(width: 20),
           MaterialButton(

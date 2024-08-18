@@ -44,7 +44,27 @@ class _CardPostState extends State<CardPost> {
     );
   }
 
-  _editPost() {}
+  _editPost() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) => AddOrUpdatePostWidget(
+              onAccept: (
+                post,
+              ) async {
+                if (post.title!.isNotEmpty && post.body!.isNotEmpty) {
+                  await appAPIs.updatePost(
+                      postId: post.id!,
+                      title: '${post.body}',
+                      body: '${post.body}'
+
+                      //  postId: post.id,
+                      //  title:  post.title,
+                      // body:   post.body,
+                      );
+                }
+              },
+            ));
+  }
 
   void _confirmDelete(BuildContext context) {
     appAPIs.deletePost(context, 1);

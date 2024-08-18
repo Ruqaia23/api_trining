@@ -73,8 +73,13 @@ class AppAPIs {
     }
   }
 
-  Future<Post?> updatePost(int postId, String title, String body) async {
+  Future<Post?> updatePost({
+    required int postId,
+    required String title,
+    required String body,
+  }) async {
     Map<String, dynamic> request = {
+      '1': postId,
       'title': title,
       'body': body,
     };
