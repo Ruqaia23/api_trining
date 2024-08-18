@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddOrUpdatePostWidget extends StatefulWidget {
-  AddOrUpdatePostWidget({super.key, required this.onAccept});
+  AddOrUpdatePostWidget({super.key, required this.onAccept, this.post});
+  final Post? post;
   final void Function(Post) onAccept;
 
   @override
@@ -55,6 +56,7 @@ class _AddOrUpdatePostWidgetState extends State<AddOrUpdatePostWidget> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              // if (widget.post != null)
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -73,6 +75,7 @@ class _AddOrUpdatePostWidgetState extends State<AddOrUpdatePostWidget> {
                   String title = titleController.text;
                   String body = bodyController.text;
                   Post updatedPost = Post(
+                    userId: widget.post!.userId,
                     title: title,
                     body: body,
                   );

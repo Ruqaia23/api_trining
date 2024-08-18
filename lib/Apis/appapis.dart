@@ -81,7 +81,7 @@ class AppAPIs {
     required String body,
   }) async {
     Map<String, dynamic> request = {
-      '1': postId,
+      "id": postId,
       'title': title,
       'body': body,
     };
