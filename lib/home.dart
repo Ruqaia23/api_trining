@@ -32,8 +32,8 @@ class _HomeState extends State<Home> {
               future: appAPIs.dataCall(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  snapshot.data!;
-                  print(snapshot.data);
+                  snapshot.data;
+                  //  print(snapshot.data);
 
                   return Expanded(
                       child: Column(

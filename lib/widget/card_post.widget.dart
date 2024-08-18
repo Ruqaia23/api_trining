@@ -44,53 +44,29 @@ class _CardPostState extends State<CardPost> {
     );
   }
 
-  _editPost() {
+  void _editPost() {
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) => AddOrUpdatePostWidget(
-              onAccept: (
-                post,
-              ) async {
-                if (post.title!.isNotEmpty && post.body!.isNotEmpty) {
-                  await appAPIs.updatePost(
-                      postId: post.id!,
-                      title: '${post.body}',
-                      body: '${post.body}'
-
-                      //  postId: post.id,
-                      //  title:  post.title,
-                      // body:   post.body,
-                      );
-                }
-              },
-            ));
+      context: context,
+      builder: (BuildContext context) => AddOrUpdatePostWidget(
+        onAccept: (post) async {
+          if (post.title?.isNotEmpty == true && post.body?.isNotEmpty == true) {
+            await appAPIs.updatePost(
+              postId: post.id!,
+              title: '${post.body}',
+              body: '${post.body}',
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Please fill out all fields')),
+            );
+          }
+        },
+      ),
+    );
   }
 
   void _confirmDelete(BuildContext context) {
     appAPIs.deletePost(context, 1);
     setState(() {});
-
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) => AlertDialog(
-    //     title: Text('Delete'),
-    //     actions: [
-    //       TextButton(
-    //         child: Text('Yes'),
-    //         onPressed: () {
-    //           appAPIs.deletePost(context, 1);
-    //            Navigator.pop(context);
-    //           setState(() {});
-    //         },
-    //       ),
-    //       TextButton(
-    //         child: Text('No'),
-    //         onPressed: () {
-    //           Navigator.pop(context);
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

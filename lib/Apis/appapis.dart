@@ -27,23 +27,25 @@ class AppAPIs {
   }
 
   Future<bool> deletePost(BuildContext context, int postId) async {
-    final uri = Uri.parse('$dataURL' '$postId');
+    final uri = Uri.parse('$dataURL/$postId');
     try {
       final response = await http.delete(uri);
 
       if (response.statusCode == 200) {
-        // This method now receives the context and shows a SnackBar
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Post deleted successfully')),
         );
         return true;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to delete post')),
+          SnackBar(
+              content: Text(
+                  'Failed to delete post. Status code: ${response.statusCode}')),
         );
         return false;
       }
     } catch (e) {
+      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
@@ -83,7 +85,7 @@ class AppAPIs {
       'title': title,
       'body': body,
     };
-    final uri = Uri.parse('$dataURL' '$postId');
+    final uri = Uri.parse('$dataURL/$postId');
     try {
       final response =
           await http.put(uri, body: json.encode(request), headers: {
