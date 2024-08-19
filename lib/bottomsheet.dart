@@ -75,7 +75,7 @@ class _AddOrUpdatePostWidgetState extends State<AddOrUpdatePostWidget> {
                   String title = titleController.text;
                   String body = bodyController.text;
                   Post updatedPost = Post(
-                    userId: widget.post!.userId,
+                    userId: widget.post?.userId ?? 0,
                     title: title,
                     body: body,
                   );
